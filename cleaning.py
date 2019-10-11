@@ -13,10 +13,8 @@ from nltk.stem.snowball import SnowballStemmer
 from nltk.stem.wordnet import WordNetLemmatizer
 import string
 from os import listdir
+from os.path import isfile
 import os
-
-# get all files in a directory
-directory = '/Users/linhchau/Desktop/galvanize/casestudies/nlp/text'
 
 
 # function to read in file; returns a list of words
@@ -30,6 +28,7 @@ def clean_file(data):
     data_strip = [i.translate(translator) for i in data]
     
     # remove stop words
+    stopwords_ = set(stopwords.words('english'))
     data_strip = [w for w in data_strip if not w in stopwords_]
     
     # remove spaces
@@ -46,7 +45,7 @@ def clean_file(data):
 
 def clean_files_directory(directory):
     documents = dict()
-    onlyfiles = [f for f in listdir(directory) if isfile(join(directory, f))]
+    onlyfiles = [f for f in listdir(directory) if isfile(directory + '/' + f)]
     
     for i in onlyfiles: 
         # read in file
