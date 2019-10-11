@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.linalg import svd
 import pandas as pd
 import cleaning
 from collections import Counter
@@ -36,7 +37,7 @@ def vectorize(df):
     return vectorizer, X, words
 
 def get_concepts(df):
-    vectorizer, X, words = vectorize(df)
+    _, X, words = vectorize(df)
 
     nmf = NMF(n_components=7)
     nmf.fit(X.toarray())
@@ -64,3 +65,8 @@ def get_idfs(df):
     biggest = pd.Series([features[1] for features in biggest], index = [features[0] for features in biggest])
 
     return smallest, biggest
+
+def dense_matrix():
+    _, X, words = vectorize(df)
+    u,s,v = svd(X.toarray())
+    return v
