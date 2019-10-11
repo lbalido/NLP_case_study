@@ -21,3 +21,22 @@ def get_common_words(df):
     most_common_exc = Counter(text_body_exclusive).most_common(20)
     return most_common, most_common_exc
 
+def nmf_pkg(df):
+
+    vectorizer = TfidfVectorizer(stop_words='english', max_features=1000)
+    X = vectorizer.fit_transform(df['articles_joined'])
+    words = vectorizer.get_feature_names()
+    nmf = NMF(n_components=7)
+    nmf.fit(X.toarray())
+    W = nmf.transform(X.toarray())
+    H = nmf.components_
+
+    concepts = {}
+    for i in range(7):
+        index_h = np.argsort(H[i,:])[-10:]
+        most_common_words = [words[idx] for idx in index_h]
+
+        index_w = np.argsort(W[:,i], axis=0)[-10:]
+        concepts[i] = most_common_words
+
+    return concepts
