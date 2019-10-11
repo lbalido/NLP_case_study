@@ -27,6 +27,9 @@ def clean_file(data):
     translator = str.maketrans('', '', string.punctuation)
     data_strip = [i.translate(translator) for i in data]
     
+    # lowercase
+    data_strip = [w.lower() for w in data_strip]
+
     # remove stop words
     stopwords_ = set(stopwords.words('english'))
     data_strip = [w for w in data_strip if not w in stopwords_]
@@ -36,9 +39,6 @@ def clean_file(data):
     
     # remove urls
     data_strip = [w for w in data_strip if 'http' not in w]
-    
-    # lowercase
-    data_strip = [w.lower() for w in data_strip]
     
     return data_strip
 
@@ -56,4 +56,15 @@ def clean_files_directory(directory):
 
         # return dict with file as name and bag of words as values
         documents[i] = cleaned
-    return documents
+
+    result = dict()
+
+    # converting dictionary to pd.dataframe
+    for key,value in documents.items():
+        keys = list()
+        keys.append(value)   
+        result[key]=keys
+    
+    document_df = pd.DataFrame.from_dict(result, orient = 'index')
+
+    return document_df
