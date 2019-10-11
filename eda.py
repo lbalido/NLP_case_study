@@ -3,6 +3,14 @@ import pandas as pd
 import cleaning
 from collections import Counter
 
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
+from scipy.spatial.distance import pdist, squareform
+from scipy.cluster.hierarchy import linkage, dendrogram
+import operator
+
+from sklearn.decomposition import NMF
+
 def join_strings(df):
     df['articles_joined'] = df['articles'].apply(lambda x: ' '.join(x))
 
