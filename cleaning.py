@@ -32,6 +32,10 @@ def clean_file(data):
 
     # remove stop words
     stopwords_ = set(stopwords.words('english'))
+    stopwords_.add('ref')
+    stopwords_.add('also')
+    stopwords_.add('–')
+    stopwords_.add('references')
     data_strip = [w for w in data_strip if not w in stopwords_]
     
     # remove spaces
@@ -45,11 +49,12 @@ def clean_file(data):
 
 def clean_files_directory(directory):
     documents = dict()
-    onlyfiles = [f for f in listdir(directory) if isfile(directory + '/' + f)]
+    onlyfiles = [f for f in listdir(directory)[:50000] if isfile(directory + '/' + f)]
     
     for i in onlyfiles: 
         # read in file
         data = read_files(directory, i)
+        print('reading {} ...'.format(i))
 
         # clean file
         cleaned = clean_file(data)

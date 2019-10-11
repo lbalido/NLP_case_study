@@ -36,16 +36,16 @@ def vectorize(df):
     words = vectorizer.get_feature_names()
     return vectorizer, X, words
 
-def get_concepts(df):
+def get_concepts(df,n):
     _, X, words = vectorize(df)
 
-    nmf = NMF(n_components=7)
+    nmf = NMF(n_components=n)
     nmf.fit(X.toarray())
     W = nmf.transform(X.toarray())
     H = nmf.components_
 
     concepts = {}
-    for i in range(7):
+    for i in range(n):
         index_h = np.argsort(H[i,:])[-10:]
         most_common_words = [words[idx] for idx in index_h]
         concepts[i] = most_common_words
