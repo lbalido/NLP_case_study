@@ -65,6 +65,6 @@ def clean_files_directory(directory):
         keys.append(value)   
         result[key]=keys
     
-    document_df = pd.DataFrame.from_dict(result, orient = 'index')
+    document_df = pd.DataFrame.from_dict(result, orient = 'index', columns = ['articles'])
 
     return document_df
